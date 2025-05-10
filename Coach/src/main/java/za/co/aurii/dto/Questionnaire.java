@@ -17,6 +17,24 @@ public class Questionnaire {
     private Metadata metadata;
     private List<Question> questions;
 
+    public String generatePrompt() {
+        // TODO: Replace with strategy pattern for each answer to allow for richer prompt generation
+        StringBuilder consolidatedPrompt = new StringBuilder();
+
+        for (Question question : questions) {
+            if (question.getAnswer() != null && !question.getAnswer().trim().isEmpty()) {
+                String promptSection = buildPromptSection(question);
+                consolidatedPrompt.append(promptSection).append("\n");
+            }
+        }
+
+        return consolidatedPrompt.toString();
+    }
+
+    private String buildPromptSection(Question question) {
+        return question.getPrompt().replace("{answer}", question.getAnswer());
+    }
+
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
@@ -36,4 +54,6 @@ public class Questionnaire {
         private String prompt;
         private String answer;
     }
+    
+    
 }
