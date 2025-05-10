@@ -1,8 +1,6 @@
 spring:
   application:
     name: aurii-backend
-  springdoc:
-    swagger-ui:
-      path: /api-docs
+
 server:
   port: 8080
