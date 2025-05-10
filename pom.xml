@@ -16,6 +16,7 @@
     <name>aurii-backend</name>
     <description>aurii-backend</description>
     <modules>
+        <module>Core</module>
         <module>User</module>
         <module>LLMInterface</module>
         <module>Coach</module>
@@ -23,9 +24,8 @@
         <module>Activity</module>
     </modules>
 
-
     <properties>
-        <java.version>21</java.version>
+        <java.version>17</java.version>
         <spring-ai.version>1.0.0-M8</spring-ai.version>
     </properties>
     <dependencies>
@@ -89,18 +89,6 @@
                             <artifactId>lombok</artifactId>
                         </path>
                     </annotationProcessorPaths>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
                 </configuration>
             </plugin>
         </plugins>
