@@ -27,7 +27,7 @@ class QuestionnaireTest {
                 "wellness"
         );
 
-        // Create Questionnaire with the question
+        // Create a Questionnaire with the question
         List<Questionnaire.Question> questions = Arrays.asList(question);
         Questionnaire questionnaire = new Questionnaire(
                 "quest123",

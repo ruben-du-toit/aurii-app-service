@@ -2,8 +2,9 @@ package za.co.auri;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import za.co.aurii.AuriiBackendApplication;
 
-@SpringBootTest
+@SpringBootTest(classes = AuriiBackendApplication.class)
 class AuriiBackendApplicationTests {
 
     @Test
