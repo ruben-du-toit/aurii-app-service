@@ -1,9 +1,11 @@
 package za.co.aurii.api;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Mono;
 import za.co.aurii.dto.LLMRequest;
 import za.co.aurii.dto.LLMResponse;
 
@@ -19,26 +21,25 @@ public class OllamaClient implements LLMClient {
     private String baseApiUrl;
 
     @Value("${llm.apiKey:}")
-    private String apiKey; // Not used by Ollama /generate but kept for consistency if needed elsewhere
+    private String apiKey; // Not used by Ollama /generate but kept for consistency
 
     @Value("${llm.defaultModel:llama3}")
     private String defaultModel;
 
-    private final RestTemplate restTemplate;
+    private final WebClient webClient;
     private String ollamaGenerateEndpointUrl;
 
-    public OllamaClient(final RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public OllamaClient(final WebClient webClient) {
+        this.webClient = webClient;
     }
 
     @PostConstruct
     private void initialize() {
         if (this.baseApiUrl == null || this.baseApiUrl.trim().isEmpty()) {
             System.err.println("Warning: Ollama API base URL is not configured. Using default http://localhost:11434");
-            // Defaulting baseApiUrl if somehow null after @Value (though @Value should prevent this with defaults)
             this.baseApiUrl = "http://localhost:11434";
         }
-        
+
         String sanitizedBaseUrl = this.baseApiUrl.trim();
         if (sanitizedBaseUrl.endsWith("/")) {
             this.ollamaGenerateEndpointUrl = sanitizedBaseUrl + "api/generate";
@@ -48,10 +49,8 @@ public class OllamaClient implements LLMClient {
 
         if (this.defaultModel == null || this.defaultModel.trim().isEmpty()) {
             System.err.println("Warning: Default LLM model is not configured. This might lead to errors if requests don't specify a model.");
-            // Potentially throw an IllegalStateException if defaultModel is critical for all operations
-            // throw new IllegalStateException("Default LLM model must be configured.");
         }
-        System.out.println("OllamaClient initialized. API endpoint: " + this.ollamaGenerateEndpointUrl + ", Default model: " + this.defaultModel);
+        System.out.println("OllamaClient initialized with WebClient. API endpoint: " + this.ollamaGenerateEndpointUrl + ", Default model: " + this.defaultModel);
     }
 
     @Override
@@ -66,32 +65,33 @@ public class OllamaClient implements LLMClient {
         LLMRequest request = new LLMRequest();
         request.setModel(this.defaultModel);
         request.setPrompt(prompt);
-        // Ensure the request is for a single response, not a stream.
-        request.setStream(false); 
-        // request.setFormat("json"); // Uncomment if you want to enforce JSON output format from Ollama
-
-        // Other potential default parameters for LLMRequest can be set here if needed, e.g.:
-        // request.setOptions(new HashMap<>()); // To set temperature, top_k, etc.
-        // request.setSystem("You are a helpful assistant."); // System prompt
+        request.setStream(false);
+        // request.setFormat("json"); // Uncomment if you want to enforce JSON output format
 
         try {
-            System.out.println("Sending request to Ollama (" + this.ollamaGenerateEndpointUrl + ") with model '" + request.getModel() + "' and prompt: '" + request.getPrompt().substring(0, Math.min(request.getPrompt().length(), 50)) + "...'");
+            String logPrompt = prompt.substring(0, Math.min(prompt.length(), 50)) + (prompt.length() > 50 ? "..." : "");
+            System.out.println("Sending request to Ollama (" + this.ollamaGenerateEndpointUrl + ") with model '" + request.getModel() + "' and prompt: '" + logPrompt + "'");
 
-            LLMResponse llmResponse = restTemplate.postForObject(
-                    this.ollamaGenerateEndpointUrl,
-                    request,
-                    LLMResponse.class
-            );
+            LLMResponse llmResponse = webClient.post()
+                    .uri(this.ollamaGenerateEndpointUrl)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .body(Mono.just(request), LLMRequest.class)
+                    .retrieve()
+                    .bodyToMono(LLMResponse.class)
+                    .block(); // Block to maintain synchronous behavior
 
             // System.out.println("Received response from Ollama: " + (llmResponse != null ? llmResponse.getResponse() : "null"));
             return llmResponse;
 
-        } catch (RestClientException e) {
-            System.err.println("Error sending request to Ollama API (" + this.ollamaGenerateEndpointUrl + ") for model " + request.getModel() + ": " + e.getMessage());
-            throw new RuntimeException("Failed to communicate with Ollama API: " + e.getMessage(), e);
+        } catch (WebClientResponseException e) {
+            System.err.println("Error sending request to Ollama API (" + this.ollamaGenerateEndpointUrl + ") for model " + request.getModel() + ". Status: " + e.getStatusCode() + ", Body: " + e.getResponseBodyAsString());
+            System.err.println("Full WebClientResponseException details: " + e.toString());
+            throw new RuntimeException("Failed to communicate with Ollama API: " + e.getStatusCode() + ", " + e.getResponseBodyAsString(), e);
         } catch (Exception e) {
+            // This can catch errors from .block() or other unexpected issues
             System.err.println("Unexpected exception during Ollama request for model " + request.getModel() + ": " + e.getMessage());
-            throw new RuntimeException("Unexpected error while processing Ollama request", e);
+            throw new RuntimeException("Unexpected error while processing Ollama request: " + e.getMessage(), e);
         }
     }
 }
