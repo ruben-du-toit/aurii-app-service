@@ -25,6 +25,7 @@ Tech Stack: Ionic + Angular
    2. Submit Questionnaire
    3. Training plan Summary/preview view**?
    4. Apply to plan calendar approval view?
+6. Dashboard view
 
 ### Back End
 Modulith Application
@@ -39,6 +40,7 @@ Tech Stack: Java + Spring Boot. Spring Modulith.
 - Activity CRUD API 
 - Utilizes the client provided by the [Health Module](#health-module) to retrieve activity data and populate the calendar
 - Activity Datastore
+- Retrieve Dashboard summary
 
 #### Coach Module
 - Workout plan Questionnaire API for retrieving and submitting questionnaires
