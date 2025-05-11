@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import za.co.aurii.api.OllamaClient;
 import za.co.aurii.dto.Questionnaire;
 
 import java.io.File;
@@ -16,6 +17,13 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class QuestionnaireService {
+
+    private final OllamaClient ollamaClient;
+
+    public QuestionnaireService(final OllamaClient ollamaClient) {
+        this.ollamaClient = ollamaClient;
+    }
+
     public List<Questionnaire> getAllQuestionnaires() {
         try {
             Resource questionnairesDir = new ClassPathResource("questionnaires");
@@ -57,7 +65,10 @@ public class QuestionnaireService {
     }
 
     public String processSubmittedQuestionnaire(Questionnaire questionnaire) {
-        //TODO: integrate with LLMClient and return LLM response rather than just the prompt
-        return questionnaire.generatePrompt();
+        String prompt = questionnaire.generatePrompt();
+        log.info("Consolidated prompt: {}", prompt);
+        String response = ollamaClient.sendRequest(prompt).getResponse();
+        log.info("LLM Response: {}", response);
+        return response;
     }
 }

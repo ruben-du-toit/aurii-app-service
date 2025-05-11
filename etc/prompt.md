@@ -33,7 +33,7 @@ Leveraging Spring Boot's features, Let's build the project using the following s
     - Append each prompt section to a consolidated prompt field on the Questionnaire object
     - Between questions, ensure that a newline is appended to the consolidated prompt.
 - After the prompt has been built, call the LLM client to submit the prompt to the LLM
-- Log the returned prompt response text using an slf4j logger
+- Log the returned prompt response text using 1an slf4j logger
 - The LLM Client will need to be configurable:
   - the first type of LLMClient will be an OllamaClient
   - Spring needs to autowire the LLMClient bean based on spring boot configuration pulled from an application.yaml file

@@ -1,0 +1,20 @@
+{
+  "id": "sample002",
+  "title": "Sample Fitness Goals Questionnaire",
+  "description": "A questionnaire to understand your fitness goals and preferences.",
+  "version": "1.1",
+  "metadata": {
+    "author": "AI Assistant",
+    "tags": ["fitness", "goals", "exercise preference"],
+    "category": "Health & Wellness"
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "text": "What are your primary fitness goals? (e.g., weight loss, muscle gain, endurance improvement)",
+      "placeholder": "Describe your main fitness objectives",
+      "prompt": "Please generate a 4 week training plan for the following goals: {answer}.",
+      "answer": "My main goal is to improve cardiovascular endurance and run a 5k."
+    }
+  ]
+}
