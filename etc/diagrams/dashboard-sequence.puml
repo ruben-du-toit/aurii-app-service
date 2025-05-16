@@ -1,0 +1,38 @@
+@startuml
+
+title: Link to Health Data Provider
+
+actor           "Actor"                     as User
+participant     "Mobile App"                as App
+'participant     "Coach Module"              as Coach
+'participant     "LLM Interface Module"      as LLMInterface
+participant     "Activity Module"           as Activity
+database        "Activity Database"         as ActivityDb
+participant     "Health Provider Module"    as Health
+boundary        "Health Connect/HealthKit"                       as HP
+
+
+
+User -> App: Open App
+App -> Activity: loadDashboard()
+activate Activity
+
+note right: Not sure if we want to couple this in here?
+group Get Latest Activities from Health Data Provider
+    Activity -> Health: retrieveActivities()
+    Health -> HP: retrieveActivities()
+    Health <-- HP: activityCollection
+    Activity <-- Health: activityCollection
+    Activity -> ActivityDb: storeActivitiesFromHP(activityCollection)
+end
+Activity -> ActivityDb: retrieveAllActivities()
+
+Activity -> Activity: calculateDashboardSummaries(activities)
+Activity <-- ActivityDb: dashboard response
+deactivate Activity
+App <-- Activity: dashboard response
+
+User <-- App: dashboard response
+
+
+@enduml

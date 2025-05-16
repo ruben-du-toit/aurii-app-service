@@ -16,5 +16,8 @@ boundary        "Health Connect/HealthKit"                       as HP
 User -> App: Open App
 App -> Health: LinkProvider()
 Health -> HP: LinkProvider()
+User <-- App: response
+App <-- Health: response
+Health <-- HP: response
 
 @enduml
