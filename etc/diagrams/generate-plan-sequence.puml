@@ -1,4 +1,6 @@
 @startuml
+title: Generate Plan Sequence Diagram
+
 actor           "Actor"                     as User
 participant     "Mobile App"                as App
 participant     "Coach Module"              as Coach
@@ -13,11 +15,15 @@ App -> Coach: createPlan()
 Coach --> App: questionnaireList
 User -> App: Select  & Complete Questionnaire
 App -> Coach: submitQuestionnaire()
+activate Coach
 Coach -> Coach: processQuestionnaire()
 Coach -> LLMInterface: generatePlan(prompt)
+deactivate Coach
 
 LLMInterface -> LLM: /generate
+activate LLM
 LLM --> LLMInterface: response
+deactivate LLM
 
 LLMInterface --> Coach: response
 

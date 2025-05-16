@@ -1,0 +1,29 @@
+@startuml
+
+title: View Calendar Sequence Diagram
+
+actor           "Actor"                     as User
+participant     "Mobile App"                as App
+'participant     "Coach Module"              as Coach
+'participant     "LLM Interface Module"      as LLMInterface
+participant     "Activity Module"           as Activity
+database        "Activity Database"         as ActivityDb
+'boundary        "LLM"                       as LLM
+
+
+User -> App: Open App
+App -> Activity: loadCalendar()
+Activity -> ActivityDb: retrieveActivitiesWithinDateRange()
+Activity <-- ActivityDb: activitySummaryCollection
+App <-- Activity: populateCalendar
+User <-- App: Display calendar activities
+
+' Potentially excludable for MVP
+User -> App: SelectActivity
+App -> Activity: retrieveActivity()
+Activity -> ActivityDb: retrieveActivity()
+Activity <-- ActivityDb: activity
+App <-- Activity: activityDetail
+User <-- App: Display Activity detail view
+
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+
+title: Link to Health Data Provider
+
+actor           "Actor"                     as User
+participant     "Mobile App"                as App
+'participant     "Coach Module"              as Coach
+'participant     "LLM Interface Module"      as LLMInterface
+'participant     "Activity Module"           as Activity
+participant     "Health Provider Module"    as Health
+'database        "Activity Database"         as ActivityDb
+boundary        "Health Connect/HealthKit"                       as HP
+
+
+
+User -> App: Open App
+App -> Health: LinkProvider()
+Health -> HP: LinkProvider()
+
+@enduml
