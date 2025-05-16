@@ -1,0 +1,34 @@
+@startuml
+actor           "Actor"                     as User
+participant     "Mobile App"                as App
+participant     "Coach Module"              as Coach
+participant     "LLM Interface Module"      as LLMInterface
+participant     "Activity Module"           as Activity
+database        "Activity Database"         as ActivityDb
+boundary        "LLM"                       as LLM
+
+
+User -> App: Create Training Plan
+App -> Coach: createPlan()
+Coach --> App: questionnaireList
+User -> App: Select  & Complete Questionnaire
+App -> Coach: submitQuestionnaire()
+Coach -> Coach: processQuestionnaire()
+Coach -> LLMInterface: generatePlan(prompt)
+
+LLMInterface -> LLM: /generate
+LLM --> LLMInterface: response
+
+LLMInterface --> Coach: response
+
+Coach --> App: response
+App --> User: Preview Plan
+
+User -> App: Accept
+App ->  Activity: processPlan()
+Activity -> ActivityDb: save(activities)
+Activity --> App: success/failure
+App --> User: Success/Failure
+
+
+@enduml
