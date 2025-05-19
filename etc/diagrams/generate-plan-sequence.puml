@@ -1,7 +1,7 @@
 @startuml
 title: Generate Plan Sequence Diagram
 
-actor           "Actor"                     as User
+actor           "User"                     as User
 participant     "Mobile App"                as App
 participant     "Coach Module"              as Coach
 participant     "LLM Interface Module"      as LLMInterface
