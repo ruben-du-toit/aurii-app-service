@@ -1,0 +1,7 @@
+{
+  "name": "aurii-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
