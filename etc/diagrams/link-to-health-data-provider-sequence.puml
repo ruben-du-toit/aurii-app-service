@@ -7,17 +7,14 @@ participant     "Mobile App"                as App
 'participant     "Coach Module"              as Coach
 'participant     "LLM Interface Module"      as LLMInterface
 'participant     "Activity Module"           as Activity
-participant     "Health Provider Module"    as Health
 'database        "Activity Database"         as ActivityDb
 boundary        "Health Connect/HealthKit"                       as HP
 
 
 
 User -> App: Open App
-App -> Health: LinkProvider()
-Health -> HP: LinkProvider()
+App -> HP: LinkProvider()
 User <-- App: response
-App <-- Health: response
-Health <-- HP: response
+App <-- HP: response
 
 @enduml

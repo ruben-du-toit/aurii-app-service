@@ -8,7 +8,6 @@ participant     "Mobile App"                as App
 'participant     "LLM Interface Module"      as LLMInterface
 participant     "Activity Module"           as Activity
 database        "Activity Database"         as ActivityDb
-participant     "Health Provider Module"    as Health
 boundary        "Health Connect/HealthKit"                       as HP
 
 
@@ -19,10 +18,8 @@ activate Activity
 
 note right: Not sure if we want to couple this in here?
 group Get Latest Activities from Health Data Provider
-    Activity -> Health: retrieveActivities()
-    Health -> HP: retrieveActivities()
-    Health <-- HP: activityCollection
-    Activity <-- Health: activityCollection
+    Activity -> HP: retrieveActivities()
+    Activity <-- HP: activityCollection
     Activity -> ActivityDb: storeActivitiesFromHP(activityCollection)
 end
 Activity -> ActivityDb: retrieveAllActivities()
