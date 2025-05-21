@@ -36,5 +36,4 @@ Activity -> ActivityDb: save(activities)
 Activity --> App: success/failure
 App --> User: Success/Failure
 
-
 @enduml
