@@ -6,7 +6,8 @@
   "metadata": {
     "author": "AI Assistant",
     "tags": ["fitness", "goals", "exercise preference"],
-    "category": "Health & Wellness"
+    "category": "Health & Wellness",
+    "systemPrompt": "You are an expert sports coach and personal trainer.\nYou will be assisting in generating a workout plan by taking into account the details provided in the input below.\nWhen generating the workout plan, first generate a textual description of the plan. Then add a line with the delimiter <PLAN_START>.\nAfter the delimiter, provide a json representation of the same plan.\nThe JSON representation needs to follow this predefined structure:"
   },
   "questions": [
     {

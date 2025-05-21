@@ -1,5 +1,6 @@
 package za.co.aurii.api;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import za.co.aurii.dto.LLMResponse;
 import jakarta.annotation.PostConstruct;
 
 @Service
+@Slf4j
 public class OllamaClient implements LLMClient {
 
     @Value("${llm.client:ollama}")
@@ -70,7 +72,7 @@ public class OllamaClient implements LLMClient {
 
         try {
             String logPrompt = prompt.substring(0, Math.min(prompt.length(), 50)) + (prompt.length() > 50 ? "..." : "");
-            System.out.println("Sending request to Ollama (" + this.ollamaGenerateEndpointUrl + ") with model '" + request.getModel() + "' and prompt: '" + logPrompt + "'");
+            log.info("Sending request to Ollama (" + this.ollamaGenerateEndpointUrl + ") with model '" + request.getModel() + "' and prompt: '" + logPrompt + "'");
 
             LLMResponse llmResponse = webClient.post()
                     .uri(this.ollamaGenerateEndpointUrl)
@@ -81,16 +83,16 @@ public class OllamaClient implements LLMClient {
                     .bodyToMono(LLMResponse.class)
                     .block(); // Block to maintain synchronous behavior
 
-            // System.out.println("Received response from Ollama: " + (llmResponse != null ? llmResponse.getResponse() : "null"));
+             log.info("Received response from Ollama: " + (llmResponse != null ? llmResponse.getResponse() : "null"));
             return llmResponse;
 
         } catch (WebClientResponseException e) {
-            System.err.println("Error sending request to Ollama API (" + this.ollamaGenerateEndpointUrl + ") for model " + request.getModel() + ". Status: " + e.getStatusCode() + ", Body: " + e.getResponseBodyAsString());
-            System.err.println("Full WebClientResponseException details: " + e.toString());
+            log.error("Error sending request to Ollama API (" + this.ollamaGenerateEndpointUrl + ") for model " + request.getModel() + ". Status: " + e.getStatusCode() + ", Body: " + e.getResponseBodyAsString());
+            log.error("Full WebClientResponseException details: " + e.toString());
             throw new RuntimeException("Failed to communicate with Ollama API: " + e.getStatusCode() + ", " + e.getResponseBodyAsString(), e);
         } catch (Exception e) {
             // This can catch errors from .block() or other unexpected issues
-            System.err.println("Unexpected exception during Ollama request for model " + request.getModel() + ": " + e.getMessage());
+            log.error("Unexpected exception during Ollama request for model " + request.getModel() + ": " + e.getMessage(), e);
             throw new RuntimeException("Unexpected error while processing Ollama request: " + e.getMessage(), e);
         }
     }

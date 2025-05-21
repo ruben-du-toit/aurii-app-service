@@ -67,6 +67,7 @@ public class QuestionnaireService {
     public String processSubmittedQuestionnaire(Questionnaire questionnaire) {
         // TODO: enhance prompt builder to include before/after sections to the prompt as well as a section for asking the LLM to return
         //  the response in a format that can be serialized into JSON for the calendar app
+        //  format needs to be separated with a delimiter e.g. -------- between the textual explanation and the description
         String prompt = questionnaire.generatePrompt();
         log.info("Consolidated prompt: {}", prompt);
         String response = ollamaClient.sendRequest(prompt).getResponse();

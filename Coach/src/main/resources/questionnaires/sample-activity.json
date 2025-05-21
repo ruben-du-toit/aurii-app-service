@@ -1,0 +1,172 @@
+{
+  "trainingPlan": {
+    "metadata": {
+      "id": "unique-identifier",
+      "name": "Plan Name",
+      "sport": "Basketball",
+      "level": "Intermediate",
+      "description": "A comprehensive 12-week program focused on improving strength and agility",
+      "author": "Coach Name",
+      "createdDate": "2025-05-20",
+      "lastModified": "2025-05-20",
+      "tags": ["basketball", "agility", "strength"]
+    },
+    "athlete": {
+      "id": "athlete-id",
+      "name": "Athlete Name",
+      "age": 25,
+      "goals": ["Improve vertical jump", "Increase shooting accuracy"],
+      "constraints": [
+        {
+          "type": "injury",
+          "description": "Recovering from mild ankle sprain",
+          "accommodations": "Limit high-impact exercises for first 2 weeks"
+        }
+      ],
+      "baselineMetrics": {
+      }
+    },
+    "schedule": {
+      "duration": {
+        "value": 12,
+        "unit": "weeks"
+      },
+      "phases": [
+        {
+          "id": "phase-1",
+          "name": "Foundation Building",
+          "description": "Focus on fundamental movement patterns and base conditioning",
+          "duration": {
+            "value": 4,
+            "unit": "weeks"
+          },
+          "weeks": [
+            {
+              "weekNumber": 1,
+              "focus": "Movement fundamentals",
+              "days": [
+                {
+                  "dayNumber": 1,
+                  "date": "2025-05-21",
+                  "type": "training",
+                  "focus": ["strength", "technique"],
+                  "workouts": [
+                    {
+                      "id": "workout-1-1",
+                      "name": "Morning Strength Session",
+                      "exercises": [
+                        {
+                          "id": "exercise-1",
+                          "name": "Barbell Squat",
+                          "category": "strength",
+                          "equipment": ["barbell", "rack"],
+                          "targetMuscleGroups": ["quadriceps", "glutes", "hamstrings"],
+                          "sets": 4,
+                          "reps": 8,
+                          "weight": "70% 1RM",
+                          "notes": "Focus on depth and proper form"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "workout-1-2",
+                      "name": "Afternoon Skills Session",
+                      "drills": [
+                        {
+                          "id": "drill-1",
+                          "name": "Shooting Drills",
+                          "description": "Free throw practice followed by catch and shoot",
+                          "intensity": "moderate",
+                          "metrics": {
+                            "target": "Make 8/10 free throws consecutively"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "nutrition": {
+                    "calorieTarget": 2800,
+                    "macros": {
+                    },
+                    "supplements": [
+                      {
+                        "name": "Protein Shake",
+                        "timing": "Post-workout",
+                        "amount": "25g"
+                      }
+                    ]
+                  },
+                  "recovery": {
+                    "techniques": [
+                      {
+                        "name": "Foam Rolling",
+                        "focusAreas": ["quads", "IT band"]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "progressTracking": {
+      "assessmentSchedule": [
+        {
+          "id": "assessment-1",
+          "name": "Baseline Assessment",
+          "timing": "Pre-program",
+          "metrics": ["verticalJump", "sprintTime", "maxBenchPress"]
+        },
+        {
+          "id": "assessment-2",
+          "name": "Mid-program Assessment",
+          "timing": "Week 6",
+          "metrics": ["verticalJump", "sprintTime", "maxBenchPress"]
+        }
+      ],
+      "results": [
+        {
+          "assessmentId": "assessment-1",
+          "date": "2025-05-20",
+          "metrics": {
+            "verticalJump": 24,
+            "sprintTime": 12.3,
+            "maxBenchPress": 80
+          },
+          "notes": "Baseline established"
+        }
+      ]
+    },
+    "adaptations": {
+      "rules": [
+        {
+          "trigger": {
+            "metric": "rpe",
+            "condition": "averageOver",
+            "threshold": 8
+          },
+          "action": {
+            "type": "reduce",
+            "target": "intensity",
+            "amount": "10%",
+            "duration": "nextWorkout"
+          }
+        },
+        {
+          "trigger": {
+            "metric": "completionRate",
+            "condition": "lessThan"
+          },
+          "action": {
+            "type": "modify",
+            "target": "volume",
+            "amount": "-15%",
+            "duration": "nextWeek"
+          }
+        }
+      ]
+    }
+  }
+}
