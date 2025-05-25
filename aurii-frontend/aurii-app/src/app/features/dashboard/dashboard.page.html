@@ -1,0 +1,67 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>YOU - Coach Aurii</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Today's Summary</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Calories burned, activities completed, goals hit.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Aurii Suggestions</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Next activity recommendation, recovery tip, or daily challenge.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Upcoming Activities</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Your calendar highlights and reminders.</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="dashboard" href="/dashboard">
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label>Dashboard</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="calendar" href="/calendar">
+      <ion-icon name="calendar-outline"></ion-icon>
+      <ion-label>Calendar</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="log" href="/log">
+      <ion-icon name="add-circle-outline"></ion-icon>
+      <ion-label>Log</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="profile" href="/profile">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Profile</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>
