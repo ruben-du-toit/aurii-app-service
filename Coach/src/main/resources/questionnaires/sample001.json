@@ -9,34 +9,39 @@
     "category": "Health & Wellness",
     "systemPrompt": "You are an expert sports coach and personal trainer.\nYou will be assisting in generating a workout plan by taking into account the details provided in the input below.\nWhen generating the workout plan, first generate a textual description of the plan. Then add a line with the delimiter <PLAN_START>.\nAfter the delimiter, provide a json representation of the same plan.\nThe JSON representation needs to follow this predefined structure (this is populated with example data, please do not use this data when determining the output):"
   },
-  "questions": [
+  "sections": [
     {
-      "id": "q1",
-      "text": "What are your primary fitness goals? (e.g., weight loss, muscle gain, endurance improvement)",
-      "placeholder": "Describe your main fitness objectives",
-      "prompt": "The user's primary fitness goals are {answer}.",
-      "answer": "My main goal is to improve cardiovascular endurance and run a 5k."
-    },
-    {
-      "id": "q2",
-      "text": "How many days per week are you realistically able to dedicate to exercise?",
-      "placeholder": "e.g., 3 days",
-      "prompt": "The user can dedicate {answer} days per week to exercise.",
-      "answer": "I can commit to 4 days a week."
-    },
-    {
-      "id": "q3",
-      "text": "What types of activities do you enjoy or are you interested in trying? (e.g., running, swimming, cycling, weightlifting, yoga)",
-      "placeholder": "List activities you enjoy or would like to try",
-      "prompt": "The user enjoys or is interested in {answer}.",
-      "answer": "I enjoy running and would like to try yoga."
-    },
-    {
-      "id": "q4",
-      "text": "Do you have any physical limitations or injuries we should be aware of?",
-      "placeholder": "Describe any limitations or 'none'",
-      "prompt": "Regarding physical limitations: {answer}.",
-      "answer": "None"
+      "id": "section1",
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What are your primary fitness goals? (e.g., weight loss, muscle gain, endurance improvement)",
+          "placeholder": "Describe your main fitness objectives",
+          "prompt": "The user's primary fitness goals are {answer}.",
+          "answer": "My main goal is to improve cardiovascular endurance and run a 5k."
+        },
+        {
+          "id": "q2",
+          "text": "How many days per week are you realistically able to dedicate to exercise?",
+          "placeholder": "e.g., 3 days",
+          "prompt": "The user can dedicate {answer} days per week to exercise.",
+          "answer": "I can commit to 4 days a week."
+        },
+        {
+          "id": "q3",
+          "text": "What types of activities do you enjoy or are you interested in trying? (e.g., running, swimming, cycling, weightlifting, yoga)",
+          "placeholder": "List activities you enjoy or would like to try",
+          "prompt": "The user enjoys or is interested in {answer}.",
+          "answer": "I enjoy running and would like to try yoga."
+        },
+        {
+          "id": "q4",
+          "text": "Do you have any physical limitations or injuries we should be aware of?",
+          "placeholder": "Describe any limitations or 'none'",
+          "prompt": "Regarding physical limitations: {answer}.",
+          "answer": "None"
+        }
+      ]
     }
   ]
 }
