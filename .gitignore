@@ -41,3 +41,5 @@ plugins/
 # Optional: ignore Angular build output
 dist/
 out-tsc/
+
+**/target/
