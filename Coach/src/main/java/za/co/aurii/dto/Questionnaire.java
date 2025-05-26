@@ -15,7 +15,7 @@ public class Questionnaire {
     private String description;
     private String version;
     private Metadata metadata;
-    private List<Question> questions;
+    private List<Section> sections;
 
     public String generatePrompt() {
         // TODO: Replace with strategy pattern for each answer to allow for richer prompt generation
@@ -24,10 +24,13 @@ public class Questionnaire {
         consolidatedPrompt.append(this.getMetadata().getActivityStructure());
         consolidatedPrompt.append("\n");
 
-        for (Question question : questions) {
-            if (question.getAnswer() != null && !question.getAnswer().trim().isEmpty()) {
-                String promptSection = buildPromptSection(question);
-                consolidatedPrompt.append(promptSection).append("\n");
+
+        for (Section section: sections) {
+            for (Question question : section.getQuestions()) {
+                if (question.getAnswer() != null && !question.getAnswer().trim().isEmpty()) {
+                    String promptSection = buildPromptSection(question);
+                    consolidatedPrompt.append(promptSection).append("\n");
+                }
             }
         }
 
@@ -229,6 +232,14 @@ public class Questionnaire {
         private String placeholder;
         private String prompt;
         private String answer;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Section {
+        private String id;
+        private List<Question> questions;
     }
     
     
