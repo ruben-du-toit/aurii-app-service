@@ -18,6 +18,7 @@ export class WizardComponent implements OnInit {
 
   log: LoggerService = new LoggerService();
   plans: Questionnaire[] = [];
+  showWizard: boolean = false;
 
   constructor(private service: QuestionnaireService) {
   }
@@ -32,5 +33,10 @@ export class WizardComponent implements OnInit {
         this.log.error('Error fetching questionnaires:', error);
       }
     });
+  }
+
+  buildWizard(plan: any) {
+    this.log.info(`Building wizard for plan: ${plan.name}`);
+    this.showWizard = !this.showWizard;
   }
 }

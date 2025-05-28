@@ -1,10 +1,16 @@
 <ion-content>
 <!--Plan Selection-->
+  @if (!showWizard) {
   <ion-label>What kind of plan are you interested in building?</ion-label>
   @for (plan of plans; track plan.id) {
-    <ion-button>{{plan.title}}</ion-button>
+    <ion-button (click)="buildWizard(plan)">{{plan.title}}</ion-button>
   } @empty {
     <ion-label>Uh-oh! looks like we haven't set up any plans</ion-label>
+  }
+
+  } @else {
+  <p>Yer a wizard, Harry!</p>
+
   }
 <!--Questionnaire Wizard-->
 </ion-content>
