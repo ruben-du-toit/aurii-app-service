@@ -1,3 +1,12 @@
-<p>
-  wizard works!
-</p>
+<ion-content>
+<!--Plan Selection-->
+  <ion-label>What kind of plan are you interested in building?</ion-label>
+  @for (plan of plans; track plan.id) {
+    <ion-button>{{plan.title}}</ion-button>
+  } @empty {
+    <ion-label>Uh-oh! looks like we haven't set up any plans</ion-label>
+  }
+<!--Questionnaire Wizard-->
+</ion-content>
+
+

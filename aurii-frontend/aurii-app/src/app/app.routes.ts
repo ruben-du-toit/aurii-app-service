@@ -3,7 +3,7 @@ import {TabNavBarComponent} from "./shared/tab-nav-bar/tab-nav-bar.component";
 
 export const routes: Routes = [
   {
-    path: 'home',
+    path: '',
     component: TabNavBarComponent,
     children: [
       {
@@ -30,8 +30,8 @@ export const routes: Routes = [
     ]
   },
   {
-    path: '',
-    redirectTo: 'home',
+    path: '**',
+    redirectTo: '',
     pathMatch: 'full',
   }
 ];

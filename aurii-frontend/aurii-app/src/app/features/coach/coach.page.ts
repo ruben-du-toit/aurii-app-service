@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {RouterOutlet} from "@angular/router";
+import {IonRouterOutlet} from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-coach',
   templateUrl: './coach.page.html',
   styleUrls: ['./coach.page.scss'],
   imports: [
-    RouterOutlet,
+    IonRouterOutlet,
   ]
 })
 export class CoachPage implements OnInit {

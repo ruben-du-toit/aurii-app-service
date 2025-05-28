@@ -1,5 +1,6 @@
 package za.co.aurii.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -49,6 +50,7 @@ public class Questionnaire {
         private List<String> tags;
         private String category;
         private String systemPrompt;
+        @JsonIgnore
         private Object activityStructure = "{\n" +
                 "  \"trainingPlan\": {\n" +
                 "    \"metadata\": {\n" +

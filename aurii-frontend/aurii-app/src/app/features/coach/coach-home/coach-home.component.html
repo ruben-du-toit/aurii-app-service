@@ -1,4 +1,21 @@
-<p>
-  coach home works!
-</p>
+<ion-content>
+  <div class="container">
+    <ion-label class="plan-question">
+      What kind of plan are we building today?
+    </ion-label>
 
+    <div class="button-group">
+      <ion-button expand="block" color="primary" (click)="onPlanTypeSelected('Body')">
+        Body
+      </ion-button>
+
+      <ion-button expand="block" color="secondary" (click)="onPlanTypeSelected('Mind')">
+        Mind
+      </ion-button>
+
+      <ion-button expand="block" color="tertiary" (click)="onPlanTypeSelected('Spirit')">
+        Spirit
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

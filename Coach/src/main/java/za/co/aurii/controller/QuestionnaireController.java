@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/questionnaire")
 @RequiredArgsConstructor
+@CrossOrigin
 public class QuestionnaireController {
 
     private final QuestionnaireService questionnaireService;
