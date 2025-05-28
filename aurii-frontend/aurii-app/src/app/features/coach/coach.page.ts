@@ -1,20 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {CoachHomeComponent} from "./coach-home/coach-home.component";
-import {WizardComponent} from "./wizard/wizard.component";
-import {PlanSummaryComponent} from "./plan-summary/plan-summary.component";
+import {RouterOutlet} from "@angular/router";
 
 @Component({
   selector: 'app-coach',
   templateUrl: './coach.page.html',
   styleUrls: ['./coach.page.scss'],
   imports: [
-    CoachHomeComponent,
-    WizardComponent,
-    PlanSummaryComponent,
+    RouterOutlet,
   ]
 })
 export class CoachPage implements OnInit {
-  condition: any = "summary";
 
   constructor() {
   }

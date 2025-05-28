@@ -16,7 +16,7 @@ export const routes: Routes = [
       },
       {
         path: 'coach',
-        loadComponent: () => import('./features/coach/coach.page').then(m => m.CoachPage)
+        loadChildren: () => import('./features/coach/coach.routes').then(m => m.routes)
       },
       {
         path: 'profile',
