@@ -3,6 +3,7 @@ import {IonButton, IonContent, IonLabel} from "@ionic/angular/standalone";
 import {Questionnaire} from "../../../models";
 import {QuestionnaireService} from "../../../services";
 import {LoggerService} from "../../../core/logger/logger.service";
+import {JsonPipe} from "@angular/common";
 
 @Component({
   selector: 'app-wizard',
@@ -11,7 +12,8 @@ import {LoggerService} from "../../../core/logger/logger.service";
   imports: [
     IonContent,
     IonLabel,
-    IonButton
+    IonButton,
+    JsonPipe
   ]
 })
 export class WizardComponent implements OnInit {
@@ -19,6 +21,7 @@ export class WizardComponent implements OnInit {
   log: LoggerService = new LoggerService();
   plans: Questionnaire[] = [];
   showWizard: boolean = false;
+  form: any;
 
   constructor(private service: QuestionnaireService) {
   }
@@ -36,7 +39,8 @@ export class WizardComponent implements OnInit {
   }
 
   buildWizard(plan: any) {
-    this.log.info(`Building wizard for plan: ${plan.name}`);
+    this.log.info(`Building wizard for plan: ${plan.title}`);
     this.showWizard = !this.showWizard;
+    this.form = plan;
   }
 }

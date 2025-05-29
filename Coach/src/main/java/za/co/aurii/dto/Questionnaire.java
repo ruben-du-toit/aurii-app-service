@@ -5,7 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -49,6 +52,7 @@ public class Questionnaire {
         private String author;
         private List<String> tags;
         private String category;
+        @JsonIgnore
         private String systemPrompt;
         @JsonIgnore
         private Object activityStructure = "{\n" +
@@ -230,10 +234,13 @@ public class Questionnaire {
     @AllArgsConstructor
     public static class Question {
         private String id;
-        private String text;
+        private String label;
         private String placeholder;
         private String prompt;
         private String answer;
+        private int order = 1;
+        private String controlType;
+        private List<Map<String, String>> options = new ArrayList<>();
     }
 
     @Data

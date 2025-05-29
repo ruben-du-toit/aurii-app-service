@@ -15,31 +15,43 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What are your primary fitness goals? (e.g., weight loss, muscle gain, endurance improvement)",
+          "label": "What are your primary fitness goals? (e.g., weight loss, muscle gain, endurance improvement)",
           "placeholder": "Describe your main fitness objectives",
           "prompt": "The user's primary fitness goals are {answer}.",
-          "answer": "My main goal is to improve cardiovascular endurance and run a 5k."
+          "answer": "My main goal is to improve cardiovascular endurance and run a 5k.",
+          "order": 1,
+          "controlType": "text",
+          "options": []
         },
         {
           "id": "q2",
-          "text": "How many days per week are you realistically able to dedicate to exercise?",
+          "label": "How many days per week are you realistically able to dedicate to exercise?",
           "placeholder": "e.g., 3 days",
           "prompt": "The user can dedicate {answer} days per week to exercise.",
-          "answer": "I can commit to 4 days a week."
+          "answer": "I can commit to 4 days a week.",
+          "order": 2,
+          "controlType": "text",
+          "options": []
         },
         {
           "id": "q3",
-          "text": "What types of activities do you enjoy or are you interested in trying? (e.g., running, swimming, cycling, weightlifting, yoga)",
+          "label": "What types of activities do you enjoy or are you interested in trying? (e.g., running, swimming, cycling, weightlifting, yoga)",
           "placeholder": "List activities you enjoy or would like to try",
           "prompt": "The user enjoys or is interested in {answer}.",
-          "answer": "I enjoy running and would like to try yoga."
+          "answer": "I enjoy running and would like to try yoga.",
+          "order": 3,
+          "controlType": "text",
+          "options": []
         },
         {
           "id": "q4",
-          "text": "Do you have any physical limitations or injuries we should be aware of?",
+          "label": "Do you have any physical limitations or injuries we should be aware of?",
           "placeholder": "Describe any limitations or 'none'",
           "prompt": "Regarding physical limitations: {answer}.",
-          "answer": "None"
+          "answer": "None",
+          "order": 4,
+          "controlType": "text",
+          "options": []
         }
       ]
     }

@@ -19,10 +19,13 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What are your primary fitness goals? (e.g., weight loss, muscle gain, endurance improvement)",
+          "label": "What are your primary fitness goals? (e.g., weight loss, muscle gain, endurance improvement)",
           "placeholder": "Describe your main fitness objectives",
           "prompt": "Please generate a 4 week training plan for the following goals: {answer}.",
-          "answer": "My main goal is to improve cardiovascular endurance and run a 5k."
+          "answer": "My main goal is to improve cardiovascular endurance and run a 5k.",
+          "order": 1,
+          "controlType": "text",
+          "options": []
         }
       ]
     }

@@ -7,9 +7,10 @@ Add module with child routes
 
 2. Questionnaire
 -> API Retrieve Questionnaire
+- Update question model to incorporate fields for angular dynamic forms
 - Build and display "screens" per section with questions
-- form progress tracker bar
-- build text component
+- Form progress tracker bar
+- Build text form control component
 -> submission API & progress spinner
 
 3. Plan Summary

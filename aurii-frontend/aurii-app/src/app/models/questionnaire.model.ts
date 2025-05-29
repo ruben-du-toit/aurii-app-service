@@ -11,8 +11,6 @@ export interface MetaData {
   author: string
   tags: string[]
   category: string
-  systemPrompt?: string
-  activityStructure?: string
 }
 
 export interface Section {
@@ -22,8 +20,10 @@ export interface Section {
 
 export interface Question {
   id: string;
-  text: string;
+  label: string;
+  controlType: string;
   placeholder: string;
-  prompt: string;
-  answer: string;
+  prompt?: string;
+  answer?: string;
+  options: {key: string; value: string}[];
 }
