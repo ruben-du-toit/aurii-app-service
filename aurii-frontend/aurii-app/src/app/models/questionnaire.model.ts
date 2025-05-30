@@ -25,5 +25,6 @@ export interface Question {
   placeholder: string;
   prompt?: string;
   answer?: string;
+  order: number;
   options: {key: string; value: string}[];
 }

@@ -1,19 +1,23 @@
 import {Component, OnInit} from '@angular/core';
 import {IonButton, IonContent, IonLabel} from "@ionic/angular/standalone";
-import {Questionnaire} from "../../../models";
+import {QuestionBase, QuestionMapper, Questionnaire} from "../../../models";
 import {QuestionnaireService} from "../../../services";
 import {LoggerService} from "../../../core/logger/logger.service";
-import {JsonPipe} from "@angular/common";
+import {AsyncPipe} from "@angular/common";
+import {DynamicFormComponent} from "../../../shared/dynamic-form/dynamic-form.component";
+import {map, Observable, of, startWith} from "rxjs";
 
 @Component({
   selector: 'app-wizard',
   templateUrl: './wizard.component.html',
   styleUrls: ['./wizard.component.scss'],
+  providers: [],
   imports: [
     IonContent,
     IonLabel,
     IonButton,
-    JsonPipe
+    DynamicFormComponent,
+    AsyncPipe
   ]
 })
 export class WizardComponent implements OnInit {
@@ -21,7 +25,10 @@ export class WizardComponent implements OnInit {
   log: LoggerService = new LoggerService();
   plans: Questionnaire[] = [];
   showWizard: boolean = false;
-  form: any;
+
+  questions$: Observable<QuestionBase<string>[]> = of().pipe(
+    startWith([])
+  );
 
   constructor(private service: QuestionnaireService) {
   }
@@ -38,9 +45,11 @@ export class WizardComponent implements OnInit {
     });
   }
 
-  buildWizard(plan: any) {
+  buildWizard(plan: Questionnaire) {
     this.log.info(`Building wizard for plan: ${plan.title}`);
     this.showWizard = !this.showWizard;
-    this.form = plan;
+    this.questions$ = of(QuestionMapper.mapQuestionsToQuestionBase(plan.sections[0].questions));
+
   }
+
 }

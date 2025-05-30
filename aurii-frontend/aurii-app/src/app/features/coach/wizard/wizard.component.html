@@ -1,4 +1,5 @@
 <ion-content>
+  <p>{{showWizard}}</p>
   <!--Plan Selection-->
   @if (!showWizard) {
     <ion-label>What kind of plan are you interested in building?</ion-label>
@@ -7,12 +8,11 @@
     } @empty {
       <ion-label>Uh-oh! looks like we haven't set up any plans</ion-label>
     }
-
   } @else {
     <p>Yer a wizard, Harry!</p>
-    <p>{{ form | json }}</p>
+    <app-dynamic-form [questions]="questions$ | async"></app-dynamic-form>
   }
-  <!--Questionnaire Wizard-->
+
 </ion-content>
 
 

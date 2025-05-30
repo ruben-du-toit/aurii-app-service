@@ -1,0 +1,30 @@
+<ion-list [formGroup]="form()">
+  <ion-item>
+    <ion-label [attr.for]="question().key">{{ question().label }}</ion-label>
+  </ion-item>
+  <ion-item>
+    @switch (question().controlType) {
+      @case ('text') {
+        <ion-input [formControlName]="question().key"
+                   [id]="question().key"
+                   [type]="question().type"
+                   [errorText]="question().label+ 'is required'"
+        />
+      }
+      @case ('dropdown') {
+        <ion-list>
+          <ion-item>
+            <ion-select [id]="question().key" [formControlName]="question().key">
+              @for (opt of question().options; track opt) {
+                <ion-select-option [value]="opt.key">{{ opt.value }}</ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+        </ion-list>
+      }
+    }
+  </ion-item>
+<!--  @if (!isValid) {-->
+<!--    <div class="errorMessage">{{ question().label }} is required</div>-->
+<!--  }-->
+</ion-list>
