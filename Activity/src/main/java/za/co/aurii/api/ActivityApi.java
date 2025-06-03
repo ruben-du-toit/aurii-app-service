@@ -17,4 +17,6 @@ public interface ActivityApi {
 
     Optional<ActivityDto> updateActivity(Long id, ActivityDto dto);
 
+    ActivityDto createActivity(ActivityDto dto);
+
 }

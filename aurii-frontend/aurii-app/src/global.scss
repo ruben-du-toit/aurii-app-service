@@ -1,72 +1,82 @@
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
  */
 
-/* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
-
-/* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
-
-/* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+@import "@ionic/angular/css/palettes/dark.system.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+/* -------------------------------------------------------------------------- */
+/* Aurii Global Theme Variables                                              */
+/* -------------------------------------------------------------------------- */
+:root {
+  /* Colors */
+  --aurii-bg: #f5f9ff;
+  --aurii-accent: #18c1d1;
+  --aurii-accent-light: #b6e4ff;
+  --aurii-text: #0f4bea;
+  --aurii-secondary: #ef91ff;
+  --aurii-glass: rgba(255, 255, 255, 0.15);
+  --aurii-shadow: rgba(15, 28, 63, 0.2);
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+  /* Radius & Effects */
+  --aurii-radius-lg: 1.5rem;
+  --aurii-radius-md: 1rem;
+  --aurii-radius-sm: 0.5rem;
+  --aurii-glass-blur: blur(14px);
+  --aurii-glass-border: 1px solid rgba(255, 255, 255, 0.3);
+  --aurii-glass-shadow: 0 4px 30px var(--aurii-shadow);
 
-/* Apply font, background, and text globally */
+  /* Font */
+  --ion-font-family: 'Poppins', sans-serif;
+
+  /* Card & Button Radius (sync with Ion) */
+  --ion-border-radius: var(--aurii-radius-lg);
+  --ion-box-shadow: var(--aurii-glass-shadow);
+  --ion-card-background: var(--aurii-glass);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Global Application Styling Overrides                                      */
+/* -------------------------------------------------------------------------- */
 ion-app, ion-content, html, body {
   font-family: var(--ion-font-family);
-  background-color: var(--ion-background-color);
-  color: var(--ion-text-color);
+  background-color: var(--aurii-bg);
+  color: var(--aurii-text);
   font-size: 16px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Default selection style */
+/* Selection */
 ::selection {
-  background-color: var(--ion-color-tertiary);
-  color: var(--ion-text-color);
+  background-color: var(--aurii-accent);
+  color: var(--aurii-text);
 }
 
 /* Links */
 a {
-  color: var(--ion-color-tertiary);
+  color: var(--aurii-accent);
   text-decoration: none;
 }
-
 a:hover {
   text-decoration: underline;
 }
 
 /* Buttons */
 ion-button {
-  --background: var(--ion-color-tertiary);
-  --color: var(--ion-color-primary);
+  --background: var(--aurii-accent);
+  --color: var(--aurii-text);
   border-radius: var(--ion-border-radius);
   font-weight: 600;
   text-transform: uppercase;
@@ -74,24 +84,52 @@ ion-button {
 
 /* Cards */
 ion-card {
-  background-color: var(--ion-card-background);
+  background-color: var(--aurii-glass);
   border-radius: var(--ion-border-radius);
-  box-shadow: var(--ion-box-shadow);
+  box-shadow: var(--aurii-glass-shadow);
   padding: 1rem;
+  backdrop-filter: var(--aurii-glass-blur);
+  -webkit-backdrop-filter: var(--aurii-glass-blur);
+  border: var(--aurii-glass-border);
 }
 
 /* Labels and text */
 ion-label, ion-text, p, h1, h2, h3, h4, h5, h6 {
-  color: var(--ion-text-color);
+  color: var(--aurii-text);
 }
 
 /* List Items */
 ion-item {
   --background: transparent;
-  --color: var(--ion-text-color);
+  --color: var(--aurii-text);
 }
 
 /* Prevent iOS tap highlight */
 * {
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Custom Reusable Glass Card */
+.glass-card {
+  background: var(--aurii-glass);
+  backdrop-filter: var(--aurii-glass-blur);
+  -webkit-backdrop-filter: var(--aurii-glass-blur);
+  border-radius: var(--aurii-radius-lg);
+  box-shadow: var(--aurii-glass-shadow);
+  border: var(--aurii-glass-border);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--aurii-shadow);
+  }
+}
+
+/* Datetime Picker Custom Styling */
+.custom-datetime {
+  --background: transparent;
+  --color: var(--aurii-text);
+  border-radius: var(--aurii-radius-md);
+  padding: 0.5rem;
 }

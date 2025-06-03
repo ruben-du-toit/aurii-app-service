@@ -55,12 +55,33 @@ public class ActivityServiceImpl implements ActivityApi {
 
     @Override
     public Optional<ActivityDto> getActivityById(Long id) {
+        System.out.println("🔍 Service called with ID: " + id);
+        Optional<Activity> activity = activityRepository.findById(id);
+        System.out.println("🔎 Activity found: " + activity.isPresent());
+        return activity.map(this::toDto);
+    }
+    @Override
+    public Optional<ActivityDto> updateActivity(Long id, ActivityDto dto) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<ActivityDto> updateActivity(Long id, ActivityDto dto) {
-        return Optional.empty();
+    public ActivityDto createActivity(ActivityDto dto) {
+        // Convert DTO to entity
+        Activity activity = new Activity();
+        activity.setUserId(dto.getUserId());
+        activity.setType(dto.getType());
+        activity.setDuration(dto.getDuration());
+        activity.setDistance(dto.getDistance());
+        activity.setCalories(dto.getCalories());
+        activity.setLoggedAt(dto.getLoggedAt());
+        activity.setCreatedAt(dto.getCreatedAt() != null ? dto.getCreatedAt() : java.time.LocalDateTime.now());
+
+        // Save to database
+        Activity savedActivity = activityRepository.save(activity);
+
+        // Convert saved entity back to DTO and return
+        return toDto(savedActivity);
     }
 
 }

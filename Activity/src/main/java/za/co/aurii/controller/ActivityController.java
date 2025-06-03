@@ -29,9 +29,9 @@ public class ActivityController {
         return ResponseEntity.ok(activities);
     }
 
-    // 🔹 GET single activity by ID
     @GetMapping("/{id}")
     public ResponseEntity<ActivityDto> getActivityById(@PathVariable Long id) {
+        System.out.println("Fetching activity with ID: " + id); // Add this
         return activityApi.getActivityById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -45,5 +45,10 @@ public class ActivityController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PostMapping("/createActivity")
+    public ResponseEntity<ActivityDto> createActivity(@RequestBody ActivityDto dto) {
+        ActivityDto created = activityApi.createActivity(dto);
+        return ResponseEntity.ok(created);
+    }
 
 }

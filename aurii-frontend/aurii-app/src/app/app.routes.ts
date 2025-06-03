@@ -23,6 +23,14 @@ export const routes: Routes = [
         loadComponent: () => import('./features/profile/profile.page').then(m => m.ProfilePage)
       },
       {
+        path: 'activities',
+        loadComponent: () => import('./shared/activity/activity.component').then(m => m.ActivityComponent)
+      },
+      {
+        path: 'activities/:id',
+        loadComponent: () => import('./shared/activity/activity.component').then(m => m.ActivityComponent)
+      },
+      {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full',
