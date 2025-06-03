@@ -1,0 +1,81 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ isDetail ? 'Activity Detail' : 'All Activities' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="!loading">
+
+  <!-- Detail View -->
+  <div *ngIf="isDetail && activity">
+    <ion-card class="glass-card">
+      <ion-card-header>
+        <ion-card-title>{{ activity.type }}</ion-card-title>
+        <ion-card-subtitle>{{ activity.loggedAt | date }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Duration: {{ activity.duration }} mins</p>
+        <p>Distance: {{ activity.distance }} km</p>
+        <p>Calories: {{ activity.calories }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- New Activity Form -->
+  <ion-card class="glass-card">
+    <ion-card-header>
+      <ion-card-title>Add New Activity</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Type</ion-label>
+        <ion-input [(ngModel)]="newActivity.type"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Duration (mins)</ion-label>
+        <ion-input type="number" [(ngModel)]="newActivity.duration"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Distance (km)</ion-label>
+        <ion-input type="number" [(ngModel)]="newActivity.distance"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Calories</ion-label>
+        <ion-input type="number" [(ngModel)]="newActivity.calories"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Logged At</ion-label>
+        <ion-datetime [(ngModel)]="newActivity.loggedAt"></ion-datetime>
+      </ion-item>
+
+      <ion-button expand="full" class="ion-margin-top" (click)="createActivity()">
+        Save Activity
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- List View -->
+  <div *ngIf="!isDetail">
+
+    <!-- Existing Activities List -->
+    <ion-list>
+      <ion-card *ngFor="let a of activities" (click)="goToDetail(a.id)" class="glass-card">
+        <ion-card-header>
+          <ion-card-title>{{ a.type }}</ion-card-title>
+          <ion-card-subtitle>{{ a.loggedAt | date }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p>Duration: {{ a.duration }} mins</p>
+          <p>Distance: {{ a.distance }} km</p>
+          <p>Calories: {{ a.calories }}</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+
+  </div>
+
+</ion-content>
