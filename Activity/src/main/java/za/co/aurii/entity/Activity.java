@@ -1,70 +1,70 @@
 package za.co.aurii.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "activities")
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Activity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue
+    UUID id;
 
-    @Getter
-    @Setter
-    @Column(name = "user_id", nullable = false)
-    private UUID userId;
+    private String title;
+    private String description;
 
-    @Getter
-    @Setter
-    @Column(nullable = false)
+    private String category;
     private String type;
 
-    @Getter
-    @Setter
-    @Column(nullable = false)
-    private Integer duration;
+    @Column(name = "sport_type")
+    private String sportType;
 
-    @Getter
-    @Setter
-    @Column
-    private Double distance;
+    @Column(name = "workout_type")
+    private String workoutType;
 
-    @Getter
-    @Setter
-    @Column
-    private Integer calories;
+    private String status;
 
-    @Getter
-    @Setter
-    @Column(name = "logged_at", nullable = false)
-    private LocalDateTime loggedAt;
+    @Column(name = "plan_id")
+    private UUID planId;
 
-    @Setter
-    @Getter
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "user_id")
+    private UUID userId;
+
+    @Column(name = "scheduled_date")
+    private LocalDateTime scheduledDate;
+
+    @Column(name = "completed_date")
+    private LocalDateTime completedDate;
+
+    @CreationTimestamp
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    public Activity() {}
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
-    public Activity(UUID userId, String type, Integer duration, Double distance, Integer calories, LocalDateTime loggedAt, LocalDateTime createdAt) {
-        this.userId = userId;
-        this.type = type;
-        this.duration = duration;
-        this.distance = distance;
-        this.calories = calories;
-        this.loggedAt = loggedAt;
-        this.createdAt = createdAt;
-    }
+    private String timezone;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "is_manual")
+    private Boolean isManual;
 
+    @Column(name = "has_heart_rate_data")
+    private Boolean hasHeartRateData;
+
+    @Embedded
+    private za.co.aurii.entity.ActivityDetails details;
 }

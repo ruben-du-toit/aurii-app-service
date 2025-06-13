@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {CommonModule} from '@angular/common';
 import {IonicModule} from '@ionic/angular';
 import {FormsModule} from "@angular/forms";
@@ -11,7 +11,6 @@ import {FormsModule} from "@angular/forms";
   imports: [
     CommonModule,
     IonicModule,
-    HttpClientModule,
     FormsModule,
   ],
   templateUrl: './activity.component.html',
@@ -29,62 +28,114 @@ export class ActivityComponent implements OnInit {
     private router: Router
   ) {}
 
+  // ✅ NEW STRUCTURE: matches your backend
   newActivity = {
     userId: '22222222-2222-2222-2222-222222222222',
+    title: '',
+    description: '',
+    category: '',
     type: '',
-    duration: 0,
-    distance: 0,
-    calories: 0,
-    loggedAt: new Date().toISOString()
+    status: '',
+    scheduledDate: new Date().toISOString(),
+    details: {
+      schema: 'RunningMetrics',
+      durationMinutes: 0,
+      elapsedMinutes: 0,
+      distanceKm: 0,
+      elevationGain: 0,
+      avgSpeed: 0,
+      caloriesBurned: 0,
+      perceivedExertion: 0,
+      heartRateAvg: 0,
+      cadence: 0,
+      strideLength: 0,
+      totalSets: null,
+      totalReps: null,
+      pagesRead: null,
+      activityAchieved: false
+    }
   };
 
+  // ✅ FETCH ALL ACTIVITIES
   loadActivities() {
-    this.http.get<any[]>(`http://localhost:8080/api/activities`).subscribe(data => {
-      this.activities = data;
-      this.loading = false;
+    this.loading = true;
+    this.http.get<any[]>(`http://localhost:8080/api/activities`).subscribe({
+      next: (data) => {
+        this.activities = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Failed to load activities', err);
+        this.loading = false;
+      }
     });
   }
-
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.isDetail = !!id;
 
-    if (this.isDetail) {
-      this.http.get(`http://localhost:8080/api/activities/${id}`).subscribe(data => {
-        this.activity = data;
-        this.loading = false;
+    if (this.isDetail && id) {
+      this.loading = true;
+      this.http.get(`http://localhost:8080/api/activities/${id}`).subscribe({
+        next: (data) => {
+          this.activity = data;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Failed to load activity detail', err);
+          this.loading = false;
+        }
       });
     } else {
-      this.http.get<any[]>(`http://localhost:8080/api/activities`).subscribe(data => {
-        this.activities = data;
-        this.loading = false;
-      });
+      this.loadActivities();
     }
   }
 
-  goToDetail(id: number) {
+  goToDetail(id: string) {
     console.log("goToDetail", id);
     this.router.navigate(['/activities', id]);
   }
 
-  // Here’s your new method to call the create API:
+  // ✅ POST new activity using the updated schema
   createActivity() {
     this.http.post('http://localhost:8080/api/activities/createActivity', this.newActivity)
       .subscribe({
         next: (createdActivity: any) => {
           this.activities.push(createdActivity);
-          this.loadActivities();  // refresh after successful creation
-          this.newActivity.type = '';
-          this.newActivity.duration = 0;
-          this.newActivity.distance = 0;
-          this.newActivity.calories = 0;
-          this.newActivity.loggedAt = new Date().toISOString();
+          this.loadActivities();
+
+          // ✅ Reset form
+          this.newActivity = {
+            userId: '22222222-2222-2222-2222-222222222222',
+            title: '',
+            description: '',
+            category: '',
+            type: '',
+            status: '',
+            scheduledDate: new Date().toISOString(),
+            details: {
+              schema: 'RunningMetrics',
+              durationMinutes: 0,
+              elapsedMinutes: 0,
+              distanceKm: 0,
+              elevationGain: 0,
+              avgSpeed: 0,
+              caloriesBurned: 0,
+              perceivedExertion: 0,
+              heartRateAvg: 0,
+              cadence: 0,
+              strideLength: 0,
+              totalSets: null,
+              totalReps: null,
+              pagesRead: null,
+              activityAchieved: false
+            }
+          };
         },
-        error: err => {
+        error: (err) => {
           console.error('Failed to create activity', err);
         }
       });
   }
-
 }

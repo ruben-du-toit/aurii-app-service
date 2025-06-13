@@ -8,6 +8,7 @@ import za.co.aurii.api.ActivityApi;
 import za.co.aurii.dto.ActivityDto;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/activities")
@@ -30,7 +31,7 @@ public class ActivityController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ActivityDto> getActivityById(@PathVariable Long id) {
+    public ResponseEntity<ActivityDto> getActivityById(@PathVariable UUID id) {
         System.out.println("Fetching activity with ID: " + id); // Add this
         return activityApi.getActivityById(id)
                 .map(ResponseEntity::ok)
@@ -39,7 +40,7 @@ public class ActivityController {
 
     // 🔹 PUT update activity by ID
     @PutMapping("/{id}")
-    public ResponseEntity<ActivityDto> updateActivity(@PathVariable Long id, @RequestBody ActivityDto dto) {
+    public ResponseEntity<ActivityDto> updateActivity(@PathVariable UUID id, @RequestBody ActivityDto dto) {
         return activityApi.updateActivity(id, dto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

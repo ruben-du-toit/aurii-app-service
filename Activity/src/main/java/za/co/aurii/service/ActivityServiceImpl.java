@@ -1,87 +1,52 @@
 package za.co.aurii.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import za.co.aurii.api.ActivityApi;
 import za.co.aurii.dto.ActivityDto;
 import za.co.aurii.entity.Activity;
+import za.co.aurii.mapper.ActivityMapper;
 import za.co.aurii.repository.ActivityRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class ActivityServiceImpl implements ActivityApi {
+
     private final ActivityRepository activityRepository;
-
-    @Autowired
-    public ActivityServiceImpl(ActivityRepository activityRepository) {
-        this.activityRepository = activityRepository;
-    }
-
-    private ActivityDto toDto(Activity activity) {
-        return new ActivityDto(
-                activity.getId(),
-                activity.getUserId(),
-                activity.getType(),
-                activity.getDuration(),
-                activity.getDistance(),
-                activity.getCalories(),
-                activity.getLoggedAt(),
-                activity.getCreatedAt()
-        );
-    }
-
-    private Activity toEntity(ActivityDto dto) {
-        return new Activity(
-                dto.getUserId(),
-                dto.getType(),
-                dto.getDuration(),
-                dto.getDistance(),
-                dto.getCalories(),
-                dto.getLoggedAt(),
-                dto.getCreatedAt()
-        );
-    }
+    private final ActivityMapper activityMapper;
 
     @Override
     public List<ActivityDto> getAllActivities() {
-    return activityRepository.findAll()
-            .stream()
-            .map(this::toDto)
-            .collect(Collectors.toList());
+        return activityRepository.findAll()
+                .stream()
+                .map(activityMapper::toDto)
+                .toList();
     }
 
     @Override
-    public Optional<ActivityDto> getActivityById(Long id) {
-        System.out.println("🔍 Service called with ID: " + id);
-        Optional<Activity> activity = activityRepository.findById(id);
-        System.out.println("🔎 Activity found: " + activity.isPresent());
-        return activity.map(this::toDto);
+    public Optional<ActivityDto> getActivityById(UUID id) {
+        return activityRepository.findById(id)
+                .map(activityMapper::toDto);
     }
+
     @Override
-    public Optional<ActivityDto> updateActivity(Long id, ActivityDto dto) {
-        return Optional.empty();
+    public Optional<ActivityDto> updateActivity(UUID id, ActivityDto dto) {
+        return activityRepository.findById(id)
+                .map(existing -> {
+                    Activity updated = activityMapper.toEntity(dto);
+                    updated.setId(existing.getId()); // preserve ID
+                    Activity saved = activityRepository.save(updated);
+                    return activityMapper.toDto(saved);
+                });
     }
 
     @Override
     public ActivityDto createActivity(ActivityDto dto) {
-        // Convert DTO to entity
-        Activity activity = new Activity();
-        activity.setUserId(dto.getUserId());
-        activity.setType(dto.getType());
-        activity.setDuration(dto.getDuration());
-        activity.setDistance(dto.getDistance());
-        activity.setCalories(dto.getCalories());
-        activity.setLoggedAt(dto.getLoggedAt());
-        activity.setCreatedAt(dto.getCreatedAt() != null ? dto.getCreatedAt() : java.time.LocalDateTime.now());
-
-        // Save to database
-        Activity savedActivity = activityRepository.save(activity);
-
-        // Convert saved entity back to DTO and return
-        return toDto(savedActivity);
+        Activity saved = activityRepository.save(activityMapper.toEntity(dto));
+        return activityMapper.toDto(saved);
     }
-
 }

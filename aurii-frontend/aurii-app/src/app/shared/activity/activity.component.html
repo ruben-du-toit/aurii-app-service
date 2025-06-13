@@ -7,49 +7,145 @@
 <ion-content *ngIf="!loading">
 
   <!-- Detail View -->
+  <!-- Detail View -->
   <div *ngIf="isDetail && activity">
     <ion-card class="glass-card">
       <ion-card-header>
-        <ion-card-title>{{ activity.type }}</ion-card-title>
-        <ion-card-subtitle>{{ activity.loggedAt | date }}</ion-card-subtitle>
+        <ion-card-title>{{ activity.title }}</ion-card-title>
+        <ion-card-subtitle>
+          Scheduled: {{ activity.scheduledDate | date:'medium' }}
+        </ion-card-subtitle>
+        <ion-card-subtitle *ngIf="activity.completedDate">
+          Completed: {{ activity.completedDate | date:'medium' }}
+        </ion-card-subtitle>
       </ion-card-header>
+
       <ion-card-content>
-        <p>Duration: {{ activity.duration }} mins</p>
-        <p>Distance: {{ activity.distance }} km</p>
-        <p>Calories: {{ activity.calories }}</p>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12">
+              <p><strong>Description:</strong> {{ activity.description }}</p>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6">
+              <p><strong>Category:</strong> {{ activity.category }}</p>
+            </ion-col>
+            <ion-col size="6">
+              <p><strong>Type:</strong> {{ activity.type }}</p>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6">
+              <p><strong>Status:</strong> {{ activity.status }}</p>
+            </ion-col>
+            <ion-col size="6">
+              <p><strong>Timezone:</strong> {{ activity.timezone }}</p>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6">
+              <p><strong>Manual Entry:</strong> {{ activity.isManual ? 'Yes' : 'No' }}</p>
+            </ion-col>
+            <ion-col size="6">
+              <p><strong>Heart Rate Data:</strong> {{ activity.hasHeartRateData ? 'Yes' : 'No' }}</p>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <h3>Metrics</h3>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6"><p><strong>Duration:</strong> {{ activity.details?.durationMinutes }} mins</p></ion-col>
+            <ion-col size="6"><p><strong>Elapsed:</strong> {{ activity.details?.elapsedMinutes }} mins</p></ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6"><p><strong>Distance:</strong> {{ activity.details?.distanceKm }} km</p></ion-col>
+            <ion-col size="6"><p><strong>Elevation Gain:</strong> {{ activity.details?.elevationGain }} m</p></ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6"><p><strong>Avg Speed:</strong> {{ activity.details?.avgSpeed }} km/h</p></ion-col>
+            <ion-col size="6"><p><strong>Calories:</strong> {{ activity.details?.caloriesBurned }}</p></ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6"><p><strong>Perceived Exertion:</strong> {{ activity.details?.perceivedExertion }}</p></ion-col>
+            <ion-col size="6"><p><strong>Avg HR:</strong> {{ activity.details?.heartRateAvg }} bpm</p></ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6"><p><strong>Cadence:</strong> {{ activity.details?.cadence }} spm</p></ion-col>
+            <ion-col size="6"><p><strong>Stride Length:</strong> {{ activity.details?.strideLength }} m</p></ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <p><strong>Activity Achieved:</strong> {{ activity.details?.activityAchieved ? 'Yes' : 'No' }}</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-card-content>
     </ion-card>
   </div>
 
+
   <!-- New Activity Form -->
-  <ion-card class="glass-card">
+  <ion-card class="glass-card" *ngIf="!isDetail">
     <ion-card-header>
       <ion-card-title>Add New Activity</ion-card-title>
     </ion-card-header>
     <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Title</ion-label>
+        <ion-input [(ngModel)]="newActivity.title"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Description</ion-label>
+        <ion-input [(ngModel)]="newActivity.description"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Category</ion-label>
+        <ion-input [(ngModel)]="newActivity.category"></ion-input>
+      </ion-item>
+
       <ion-item>
         <ion-label position="floating">Type</ion-label>
         <ion-input [(ngModel)]="newActivity.type"></ion-input>
       </ion-item>
 
       <ion-item>
+        <ion-label position="floating">Status</ion-label>
+        <ion-input [(ngModel)]="newActivity.status"></ion-input>
+      </ion-item>
+
+      <ion-item>
         <ion-label position="floating">Duration (mins)</ion-label>
-        <ion-input type="number" [(ngModel)]="newActivity.duration"></ion-input>
+        <ion-input type="number" [(ngModel)]="newActivity.details.durationMinutes"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="floating">Distance (km)</ion-label>
-        <ion-input type="number" [(ngModel)]="newActivity.distance"></ion-input>
+        <ion-input type="number" [(ngModel)]="newActivity.details.distanceKm"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Calories</ion-label>
-        <ion-input type="number" [(ngModel)]="newActivity.calories"></ion-input>
+        <ion-label position="floating">Calories Burned</ion-label>
+        <ion-input type="number" [(ngModel)]="newActivity.details.caloriesBurned"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Logged At</ion-label>
-        <ion-datetime [(ngModel)]="newActivity.loggedAt"></ion-datetime>
+        <ion-label position="floating">Scheduled Date</ion-label>
+        <ion-datetime [(ngModel)]="newActivity.scheduledDate"></ion-datetime>
       </ion-item>
 
       <ion-button expand="full" class="ion-margin-top" (click)="createActivity()">
@@ -65,13 +161,13 @@
     <ion-list>
       <ion-card *ngFor="let a of activities" (click)="goToDetail(a.id)" class="glass-card">
         <ion-card-header>
-          <ion-card-title>{{ a.type }}</ion-card-title>
-          <ion-card-subtitle>{{ a.loggedAt | date }}</ion-card-subtitle>
+          <ion-card-title>{{ a.title }}</ion-card-title>
+          <ion-card-subtitle>{{ a.scheduledDate | date:'medium' }}</ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
-          <p>Duration: {{ a.duration }} mins</p>
-          <p>Distance: {{ a.distance }} km</p>
-          <p>Calories: {{ a.calories }}</p>
+          <p>Duration: {{ a.details?.durationMinutes }} mins</p>
+          <p>Distance: {{ a.details?.distanceKm }} km</p>
+          <p>Calories: {{ a.details?.caloriesBurned }}</p>
         </ion-card-content>
       </ion-card>
     </ion-list>

@@ -25,18 +25,45 @@ CREATE TABLE calendars (
 
 -- ACTIVITIES TABLE (as per your Java entity)
 CREATE TABLE activities (
-                            id SERIAL PRIMARY KEY,
+                            id UUID DEFAULT random_uuid() PRIMARY KEY,
+                            user_id UUID NOT NULL,
+                            plan_id UUID,
+                            title VARCHAR(255),
+                            description TEXT,
+                            category VARCHAR(50),
+                            type VARCHAR(50),
+                            sport_type VARCHAR(50),
+                            workout_type VARCHAR(100),
+                            status VARCHAR(50),
+                            is_manual BOOLEAN DEFAULT FALSE,
+                            has_heart_rate_data BOOLEAN DEFAULT FALSE,
+                            scheduled_date TIMESTAMP,
+                            completed_date TIMESTAMP,
+                            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                            timezone VARCHAR(50),
+                            tags TEXT,
+                            details_schema VARCHAR(100),
+                            duration_minutes INTEGER,
+                            elapsed_minutes INTEGER,
+                            distance_km DECIMAL(10,2),
+                            elevation_gain INTEGER,
+                            avg_speed DECIMAL(10,2),
+                            calories_burned INTEGER,
+                            perceived_exertion INTEGER,
+                            heart_rate_avg INTEGER,
+                            cadence INTEGER,
+                            stride_length DECIMAL(5,2),
+                            total_sets INTEGER,
+                            total_reps INTEGER,
+                            pages_read INTEGER,
+                            activity_achieved BOOLEAN,
 
-                            user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-                            type VARCHAR(255) NOT NULL,
-
-                            duration INTEGER NOT NULL,
-                            distance DECIMAL(10, 2),
-                            calories INTEGER,
-
-                            logged_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    -- ✅ Foreign key constraint defined at the end
+                            CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+
 
 -- Optionally link activity to a calendar (if desired later)
 -- ALTER TABLE activities ADD COLUMN calendar_id UUID REFERENCES calendars(id) ON DELETE SET NULL;
