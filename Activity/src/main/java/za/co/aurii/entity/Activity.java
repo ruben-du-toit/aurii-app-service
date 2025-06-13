@@ -40,8 +40,9 @@ public class Activity {
     @Column(name = "plan_id")
     private UUID planId;
 
-    @Column(name = "user_id")
-    private UUID userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
 
     @Column(name = "scheduled_date")
     private LocalDateTime scheduledDate;

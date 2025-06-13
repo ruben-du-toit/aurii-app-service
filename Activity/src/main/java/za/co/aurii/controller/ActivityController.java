@@ -52,4 +52,13 @@ public class ActivityController {
         return ResponseEntity.ok(created);
     }
 
+    @GetMapping("/user/{userId}/activities")
+    public ResponseEntity<List<ActivityDto>> getActivitiesForUser(@PathVariable UUID userId) {
+        List<ActivityDto> userActivities = activityApi.findByUserId(userId);
+        if (userActivities.isEmpty()) {
+            return ResponseEntity.noContent().build(); // Or .ok(Collections.emptyList()) if you prefer
+        }
+        return ResponseEntity.ok(userActivities);
+    }
+
 }

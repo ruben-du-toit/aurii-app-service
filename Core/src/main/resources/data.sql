@@ -1,10 +1,10 @@
 -- Make sure UUID extension is enabled (PostgreSQL)
 -- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- Optionally insert matching account records
-INSERT INTO users (id, name, email) VALUES
-                                        ('11111111-1111-1111-1111-111111111111', 'User 1', 'user1@example.com'),
-                                        ('22222222-2222-2222-2222-222222222222', 'User 2', 'user2@example.com'),
-                                        ('33333333-3333-3333-3333-333333333333', 'User 3', 'user3@example.com');
+INSERT INTO users (id, name, surname, password, email, role) VALUES
+                                                           ('11111111-1111-1111-1111-111111111111', 'User', 'One', 'password123', 'user1@example.com', 'user'),
+                                                           ('22222222-2222-2222-2222-222222222222', 'User', 'Two', 'password123', 'user2@example.com', 'coach'),
+                                                           ('33333333-3333-3333-3333-333333333333', 'User', 'Three', 'password123', 'user3@example.com', 'admin');
 
 INSERT INTO accounts (id, user_id, plan, status) VALUES
                                                      (random_uuid(), '11111111-1111-1111-1111-111111111111', 'Free', 'Active'),

@@ -18,5 +18,5 @@ public interface ActivityApi {
     Optional<ActivityDto> updateActivity(UUID id, ActivityDto dto);
 
     ActivityDto createActivity(ActivityDto dto);
-
+    List<ActivityDto> findByUserId(UUID userId);
 }

@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import za.co.aurii.api.ActivityApi;
 import za.co.aurii.dto.ActivityDto;
 import za.co.aurii.entity.Activity;
+import za.co.aurii.entity.UserEntity;
 import za.co.aurii.mapper.ActivityMapper;
 import za.co.aurii.repository.ActivityRepository;
+import za.co.aurii.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,14 +20,15 @@ public class ActivityServiceImpl implements ActivityApi {
 
     private final ActivityRepository activityRepository;
     private final ActivityMapper activityMapper;
+    private final UserRepository userRepository;
 
-    @Override
-    public List<ActivityDto> getAllActivities() {
-        return activityRepository.findAll()
-                .stream()
-                .map(activityMapper::toDto)
-                .toList();
-    }
+//    @Override
+//    public List<ActivityDto> getAllActivities() {
+//        return activityRepository.findAll()
+//                .stream()
+//                .map(activityMapper::toDto)
+//                .toList();
+//    }
 
     @Override
     public Optional<ActivityDto> getActivityById(UUID id) {
@@ -46,7 +49,36 @@ public class ActivityServiceImpl implements ActivityApi {
 
     @Override
     public ActivityDto createActivity(ActivityDto dto) {
-        Activity saved = activityRepository.save(activityMapper.toEntity(dto));
+        // 👇 Mocked user assignment: get the first user
+        UserEntity user = userRepository.findAll().stream().findFirst()
+                .orElseThrow(() -> new RuntimeException("No users found"));
+
+        Activity activity = activityMapper.toEntity(dto);
+        activity.setUser(user);
+
+        Activity saved = activityRepository.save(activity);
         return activityMapper.toDto(saved);
     }
+
+    @Override
+    public List<ActivityDto> getAllActivities() {
+        // Again, mocked user
+        UUID userId = userRepository.findAll().stream()
+                .findFirst()
+                .map(UserEntity::getId)
+                .orElseThrow(() -> new RuntimeException("No users found"));
+
+        return activityRepository.findByUserId(userId).stream()
+                .map(activityMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    public List<ActivityDto> findByUserId(UUID userId) {
+        return activityRepository.findByUserId(userId)
+                .stream()
+                .map(activityMapper::toDto)
+                .toList();
+    }
+
 }
